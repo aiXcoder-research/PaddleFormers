@@ -78,7 +78,8 @@ def get_lora_target_modules(model):
         ]
     elif model.config.model_type == "bloom":
         target_modules = [".*query_key_value.*", ".*dense.*", ".*dense_h_to_4h.*", ".*dense_4h_to_h.*"]
-    elif model.config.model_type in ["llama", "jamba"] or isinstance(model, LlamaForCausalLMPipe):
+    # Aixcoder 结构上基于 Llama，因此在 LoRA 注入时与 Llama 共用同一套 target modules
+    elif model.config.model_type in ["llama", "jamba", "aixcoder"] or isinstance(model, LlamaForCausalLMPipe):
         target_modules = [
             ".*q_proj.*",
             ".*v_proj.*",
